@@ -19,4 +19,4 @@ This example deploys self-hosted version of [authorizer.dev](https://authorizer.
 ## 📝 Notes
 
 - Source repo: https://github.com/authorizerdev/authorizer
-- Docs: https://docs.authorizer.dev/
+- Docs: https://docs.authorizer.dev/deployment/railway/
