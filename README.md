@@ -20,3 +20,9 @@ This example deploys self-hosted version of [authorizer.dev](https://authorizer.
 
 - Source repo: https://github.com/authorizerdev/authorizer
 - Docs: https://docs.authorizer.dev/deployment/railway/
+
+### Updating Authorizer on existing Railway instance
+
+- You can update the [docker image](https://github.com/authorizerdev/authorizer-railway/blob/main/Dockerfile#L1) to the desired version in your repository which gets created with your deployment.
+
+- You can find all the versions on [github](https://github.com/authorizerdev/authorizer/releases) or [dockerhub](https://hub.docker.com/r/lakhansamani/authorizer)
