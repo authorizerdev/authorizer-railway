@@ -13,7 +13,7 @@ This example deploys self-hosted version of [authorizer.dev](https://authorizer.
 ## 💁‍♀️ How to use
 
 - Click the Railway button 👆
-- Add the required environment variables
+- Configure the required environment variables. Checkout docs on [environment variables](https://docs.authorizer.dev/core/env/) to get more information.
 - Deploy
 
 ## 📝 Notes
