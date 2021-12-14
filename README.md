@@ -6,7 +6,7 @@ Deploy production ready [authorizer.dev](https://authorizer.dev) instance using 
 
 ## ✨ Features
 
-- authorizer
+- [Authorizer](https://authorizer.dev)
 - PostgreSQL
 - REDIS
 
