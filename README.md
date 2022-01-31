@@ -2,7 +2,7 @@
 
 Deploy production ready [authorizer.dev](https://authorizer.dev) instance using [railway.app](https://railway.app) with postgres and redis for free and build with it in 30seconds 
 
-[![Deploy on Railway](https://railway.app/new/template?template=https://github.com/authorizerdev/authorizer-railway&amp;plugins=postgresql,redis)
+<a href="https://railway.app/new/template?template=https://github.com/authorizerdev/authorizer-railway&amp;plugins=postgresql,redis"><img src="https://railway.app/button.svg" style="height: 44px" alt="Deploy on Railway"></a>
 
 ## ✨ Features
 
