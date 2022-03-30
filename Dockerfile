@@ -1,3 +1,3 @@
-FROM lakhansamani/authorizer:0.17.0
+FROM lakhansamani/authorizer:0.18.0
 
 CMD ./build/server --database_type=postgres
