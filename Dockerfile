@@ -1,3 +1,3 @@
-FROM lakhansamani/authorizer:1.1.22
+FROM lakhansamani/authorizer:1.1.23
 
 CMD ./build/server --database_type=mysql --database_url="$MYSQLUSER:$MYSQLPASSWORD@tcp($MYSQLHOST:$MYSQLPORT)/$MYSQLDATABASE"
