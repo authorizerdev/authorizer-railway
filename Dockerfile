@@ -1,5 +1,5 @@
 # Base runs as USER authorizer (uid 1000). For SQLite, ensure mounted /data is writable by that user.
-FROM lakhansamani/authorizer:2.0.0-rc.6
+FROM lakhansamani/authorizer:2.0.0
 # Override so CMD runs in a shell and env vars (e.g. for Railway) are expanded. See base image comment.
 # Use exec-form CMD with a single string so /bin/sh -c gets one argument; shell-form CMD can be split and drop into a shell.
 ENTRYPOINT ["/bin/sh", "-c"]
