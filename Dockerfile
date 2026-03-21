@@ -1,3 +1,109 @@
-FROM lakhansamani/authorizer:1.4.4
-
-CMD ./build/server --database_type=mysql --database_url="$MYSQLUSER:$MYSQLPASSWORD@tcp($MYSQLHOST:$MYSQLPORT)/$MYSQLDATABASE"
+# Base runs as USER authorizer (uid 1000). For SQLite, ensure mounted /data is writable by that user.
+FROM lakhansamani/authorizer:2.0.0-rc.6
+# Override so CMD runs in a shell and env vars (e.g. for Railway) are expanded. See base image comment.
+# Use exec-form CMD with a single string so /bin/sh -c gets one argument; shell-form CMD can be split and drop into a shell.
+ENTRYPOINT ["/bin/sh", "-c"]
+# Single CMD string so the whole command is run by sh -c (not just "./authorizer").
+# Backslash-newline inside the string lets sh treat this as one command across lines.
+CMD ["./authorizer \\\n\
+  --database-type=\"${DATABASE_TYPE:-mysql}\" \\\n\
+  --database-url=\"${DATABASE_URL}\" \\\n\
+  --client-id=\"${CLIENT_ID}\" \\\n\
+  --client-secret=\"${CLIENT_SECRET}\" \\\n\
+  --admin-secret=\"${ADMIN_SECRET}\" \\\n\
+  --redis-url=\"${REDIS_URL}\" \\\n\
+  --jwt-type=\"${JWT_TYPE}\" \\\n\
+  --jwt-secret=\"${JWT_SECRET}\" \\\n\
+  --jwt-private-key=\"${JWT_PRIVATE_KEY}\" \\\n\
+  --jwt-public-key=\"${JWT_PUBLIC_KEY}\" \\\n\
+  --jwt-role-claim=\"${JWT_ROLE_CLAIM}\" \\\n\
+  --custom-access-token-script=\"${CUSTOM_ACCESS_TOKEN_SCRIPT}\" \\\n\
+  --roles=\"${ROLES}\" \\\n\
+  --default-roles=\"${DEFAULT_ROLES}\" \\\n\
+  --protected-roles=\"${PROTECTED_ROLES}\" \\\n\
+  --allowed-origins=\"${ALLOWED_ORIGINS}\" \\\n\
+  --default-authorize-response-type=\"${DEFAULT_AUTHORIZE_RESPONSE_TYPE}\" \\\n\
+  --default-authorize-response-mode=\"${DEFAULT_AUTHORIZE_RESPONSE_MODE}\" \\\n\
+  --organization-name=\"${ORGANIZATION_NAME}\" \\\n\
+  --organization-logo=\"${ORGANIZATION_LOGO}\" \\\n\
+  --smtp-host=\"${SMTP_HOST}\" \\\n\
+  --smtp-port=\"${SMTP_PORT:-0}\" \\\n\
+  --smtp-username=\"${SMTP_USERNAME}\" \\\n\
+  --smtp-password=\"${SMTP_PASSWORD}\" \\\n\
+  --smtp-sender-email=\"${SENDER_EMAIL}\" \\\n\
+  --smtp-sender-name=\"${SENDER_NAME}\" \\\n\
+  --reset-password-url=\"${RESET_PASSWORD_URL}\" \\\n\
+  --env=\"${ENV}\" \\\n\
+  --host=\"${HOST:-0.0.0.0}\" \\\n\
+  --metrics-port=\"${METRICS_PORT:-8081}\" \\\n\
+  --enable-login-page=\"${ENABLE_LOGIN_PAGE:-true}\" \\\n\
+  --enable-playground=\"${ENABLE_PLAYGROUND:-true}\" \\\n\
+  --disable-admin-header-auth=\"${DISABLE_ADMIN_HEADER_AUTH:-true}\" \\\n\
+  --enable-graphql-introspection=\"${ENABLE_GRAPHQL_INTROSPECTION:-true}\" \\\n\
+  --app-cookie-secure=\"${APP_COOKIE_SECURE:-true}\" \\\n\
+  --admin-cookie-secure=\"${ADMIN_COOKIE_SECURE:-true}\" \\\n\
+  --database-name=\"${DATABASE_NAME}\" \\\n\
+  --database-username=\"${DATABASE_USERNAME}\" \\\n\
+  --database-password=\"${DATABASE_PASSWORD}\" \\\n\
+  --database-host=\"${DATABASE_HOST}\" \\\n\
+  --database-port=\"${DATABASE_PORT:-0}\" \\\n\
+  --database-cert=\"${DATABASE_CERT}\" \\\n\
+  --database-ca-cert=\"${DATABASE_CA_CERT}\" \\\n\
+  --database-cert-key=\"${DATABASE_CERT_KEY}\" \\\n\
+  --couchbase-bucket=\"${COUCHBASE_BUCKET}\" \\\n\
+  --couchbase-scope=\"${COUCHBASE_SCOPE}\" \\\n\
+  --couchbase-ram-quota=\"${COUCHBASE_RAM_QUOTA}\" \\\n\
+  --aws-region=\"${AWS_REGION}\" \\\n\
+  --aws-access-key-id=\"${AWS_ACCESS_KEY_ID}\" \\\n\
+  --aws-secret-access-key=\"${AWS_SECRET_ACCESS_KEY}\" \\\n\
+  --smtp-local-name=\"${SMTP_LOCAL_NAME}\" \\\n\
+  --smtp-skip-tls-verification=\"${SMTP_SKIP_TLS_VERIFICATION:-false}\" \\\n\
+  --enable-strong-password=\"${ENABLE_STRONG_PASSWORD:-true}\" \\\n\
+  --enable-totp-login=\"${ENABLE_TOTP_LOGIN:-false}\" \\\n\
+  --enable-basic-authentication=\"${ENABLE_BASIC_AUTHENTICATION:-true}\" \\\n\
+  --enable-email-verification=\"${ENABLE_EMAIL_VERIFICATION:-false}\" \\\n\
+  --enable-mobile-basic-authentication=\"${ENABLE_MOBILE_BASIC_AUTHENTICATION:-true}\" \\\n\
+  --enable-phone-verification=\"${ENABLE_PHONE_VERIFICATION:-false}\" \\\n\
+  --enable-magic-link-login=\"${ENABLE_MAGIC_LINK_LOGIN:-false}\" \\\n\
+  --enforce-mfa=\"${ENFORCE_MFA:-true}\" \\\n\
+  --enable-mfa=\"${ENABLE_MFA:-false}\" \\\n\
+  --enable-email-otp=\"${ENABLE_EMAIL_OTP:-false}\" \\\n\
+  --enable-sms-otp=\"${ENABLE_SMS_OTP:-false}\" \\\n\
+  --enable-signup=\"${ENABLE_SIGNUP:-true}\" \\\n\
+  --twilio-account-sid=\"${TWILIO_ACCOUNT_SID}\" \\\n\
+  --twilio-api-key=\"${TWILIO_API_KEY}\" \\\n\
+  --twilio-api-secret=\"${TWILIO_API_SECRET}\" \\\n\
+  --twilio-sender=\"${TWILIO_SENDER}\" \\\n\
+  --google-client-id=\"${GOOGLE_CLIENT_ID}\" \\\n\
+  --google-client-secret=\"${GOOGLE_CLIENT_SECRET}\" \\\n\
+  --google-scopes=\"${GOOGLE_SCOPES}\" \\\n\
+  --github-client-id=\"${GITHUB_CLIENT_ID}\" \\\n\
+  --github-client-secret=\"${GITHUB_CLIENT_SECRET}\" \\\n\
+  --github-scopes=\"${GITHUB_SCOPES}\" \\\n\
+  --facebook-client-id=\"${FACEBOOK_CLIENT_ID}\" \\\n\
+  --facebook-client-secret=\"${FACEBOOK_CLIENT_SECRET}\" \\\n\
+  --facebook-scopes=\"${FACEBOOK_SCOPES}\" \\\n\
+  --microsoft-client-id=\"${MICROSOFT_CLIENT_ID}\" \\\n\
+  --microsoft-client-secret=\"${MICROSOFT_CLIENT_SECRET}\" \\\n\
+  --microsoft-tenant-id=\"${MICROSOFT_TENANT_ID}\" \\\n\
+  --microsoft-scopes=\"${MICROSOFT_SCOPES}\" \\\n\
+  --apple-client-id=\"${APPLE_CLIENT_ID}\" \\\n\
+  --apple-client-secret=\"${APPLE_CLIENT_SECRET}\" \\\n\
+  --apple-scopes=\"${APPLE_SCOPES}\" \\\n\
+  --discord-client-id=\"${DISCORD_CLIENT_ID}\" \\\n\
+  --discord-client-secret=\"${DISCORD_CLIENT_SECRET}\" \\\n\
+  --discord-scopes=\"${DISCORD_SCOPES}\" \\\n\
+  --linkedin-client-id=\"${LINKEDIN_CLIENT_ID}\" \\\n\
+  --linkedin-client-secret=\"${LINKEDIN_CLIENT_SECRET}\" \\\n\
+  --linkedin-scopes=\"${LINKEDIN_SCOPES}\" \\\n\
+  --twitch-client-id=\"${TWITCH_CLIENT_ID}\" \\\n\
+  --twitch-client-secret=\"${TWITCH_CLIENT_SECRET}\" \\\n\
+  --twitch-scopes=\"${TWITCH_SCOPES}\" \\\n\
+  --twitter-client-id=\"${TWITTER_CLIENT_ID}\" \\\n\
+  --twitter-client-secret=\"${TWITTER_CLIENT_SECRET}\" \\\n\
+  --twitter-scopes=\"${TWITTER_SCOPES}\" \\\n\
+  --roblox-client-id=\"${ROBLOX_CLIENT_ID}\" \\\n\
+  --roblox-client-secret=\"${ROBLOX_CLIENT_SECRET}\" \\\n\
+  --roblox-scopes=\"${ROBLOX_SCOPES}\" \\\n\
+  --log-level=\"${LOG_LEVEL:-info}\" \\\n\
+  --http-port=\"${PORT:-8080}\""]

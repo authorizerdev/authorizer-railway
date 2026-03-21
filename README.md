@@ -10,19 +10,35 @@ Deploy production ready [authorizer.dev](https://authorizer.dev) instance using 
 [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/nwXp1C?referralCode=FEF4uT)
 >>>>>>> 689338ce273aea5f89a339b234593037860c522a
 
-## ✨ Features
+## Features
 
 - [Authorizer](https://authorizer.dev)
 - [PostgreSQL](https://github.com/authorizerdev/authorizer-railway) / [MySQL](https://github.com/authorizerdev/authorizer-railway/tree/with-mysql-redis)
 - REDIS
 
-## 💁‍♀️ How to use
+## How to use
 
-- Click the Railway button 👆
-- Configure the required environment variables. Checkout docs on [environment variables](https://docs.authorizer.dev/core/env/) to get more information.
+- Click the Railway button above
+- Configure the required variables (see below)
 - Deploy
 
-## 📝 Notes
+### Required Variables
+
+Authorizer v2 requires the following variables. Configure them in Railway's environment settings:
+
+| Variable | Description | Example |
+| -------- | ----------- | ------- |
+| `DATABASE_TYPE` | Database type | `postgres` |
+| `DATABASE_URL` | Database connection string | *(auto-configured by Railway)* |
+| `JWT_TYPE` | JWT signing algorithm | `HS256` |
+| `JWT_SECRET` | JWT signing secret | `test` |
+| `ADMIN_SECRET` | Admin secret for admin operations | `admin` |
+| `CLIENT_ID` | Client identifier **(required)** | `123456` |
+| `CLIENT_SECRET` | Client secret **(required)** | `secret` |
+
+These are mapped to CLI flags at startup. Please refer to the [server configuration docs](https://docs.authorizer.dev/core/server-config) for all available flags.
+
+## Notes
 
 - Source repo: https://github.com/authorizerdev/authorizer
 - Docs: https://docs.authorizer.dev/deployment/railway/
