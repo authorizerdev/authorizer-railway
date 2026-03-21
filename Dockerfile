@@ -7,7 +7,7 @@ ENTRYPOINT ["/bin/sh", "-c"]
 # Backslash-newline inside the string lets sh treat this as one command across lines.
 CMD ["./authorizer \\\n\
   --database-type=\"${DATABASE_TYPE:-mysql}\" \\\n\
-  --database-url=\"${DATABASE_URL}\" \\\n\
+  --database-url=\"$MYSQLUSER:$MYSQLPASSWORD@tcp($MYSQLHOST:$MYSQLPORT)/$MYSQLDATABASE\" \\\n\
   --client-id=\"${CLIENT_ID}\" \\\n\
   --client-secret=\"${CLIENT_SECRET}\" \\\n\
   --admin-secret=\"${ADMIN_SECRET}\" \\\n\
