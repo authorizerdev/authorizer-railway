@@ -5,7 +5,7 @@ FROM lakhansamani/authorizer:2.0.0
 ENTRYPOINT ["/bin/sh", "-c"]
 # Single CMD string so the whole command is run by sh -c (not just "./authorizer").
 # Backslash-newline inside the string lets sh treat this as one command across lines.
-CMD ["./authorizer \\\n\
+CMD ["exec ./authorizer \\\n\
   --database-type=\"${DATABASE_TYPE:-postgres}\" \\\n\
   --database-url=\"${DATABASE_URL}\" \\\n\
   --client-id=\"${CLIENT_ID}\" \\\n\
