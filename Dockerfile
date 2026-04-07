@@ -5,7 +5,7 @@ FROM lakhansamani/authorizer:2.0.0
 ENTRYPOINT ["/bin/sh", "-c"]
 # Single CMD string so the whole command is run by sh -c (not just "./authorizer").
 # Backslash-newline inside the string lets sh treat this as one command across lines.
-CMD ["./authorizer \\\n\
+CMD ["exec ./authorizer \\\n\
   --database-type=\"${DATABASE_TYPE:-postgres}\" \\\n\
   --database-url=\"${DATABASE_URL}\" \\\n\
   --client-id=\"${CLIENT_ID}\" \\\n\
@@ -36,12 +36,24 @@ CMD ["./authorizer \\\n\
   --env=\"${ENV}\" \\\n\
   --host=\"${HOST:-0.0.0.0}\" \\\n\
   --metrics-port=\"${METRICS_PORT:-8081}\" \\\n\
+  --metrics-host=\"${METRICS_HOST:-127.0.0.1}\" \\\n\
+  --rate-limit-rps=\"${RATE_LIMIT_RPS:-30}\" \\\n\
+  --rate-limit-burst=\"${RATE_LIMIT_BURST:-20}\" \\\n\
+  --rate-limit-fail-closed=\"${RATE_LIMIT_FAIL_CLOSED:-false}\" \\\n\
   --enable-login-page=\"${ENABLE_LOGIN_PAGE:-true}\" \\\n\
   --enable-playground=\"${ENABLE_PLAYGROUND:-true}\" \\\n\
   --disable-admin-header-auth=\"${DISABLE_ADMIN_HEADER_AUTH:-true}\" \\\n\
   --enable-graphql-introspection=\"${ENABLE_GRAPHQL_INTROSPECTION:-true}\" \\\n\
   --app-cookie-secure=\"${APP_COOKIE_SECURE:-true}\" \\\n\
   --admin-cookie-secure=\"${ADMIN_COOKIE_SECURE:-true}\" \\\n\
+  --trusted-proxies=\"${TRUSTED_PROXIES}\" \\\n\
+  --refresh-token-expires-in=\"${REFRESH_TOKEN_EXPIRES_IN:-2592000}\" \\\n\
+  --enable-hsts=\"${ENABLE_HSTS:-false}\" \\\n\
+  --disable-csp=\"${DISABLE_CSP:-false}\" \\\n\
+  --graphql-max-complexity=\"${GRAPHQL_MAX_COMPLEXITY:-300}\" \\\n\
+  --graphql-max-depth=\"${GRAPHQL_MAX_DEPTH:-15}\" \\\n\
+  --graphql-max-aliases=\"${GRAPHQL_MAX_ALIASES:-30}\" \\\n\
+  --graphql-max-body-bytes=\"${GRAPHQL_MAX_BODY_BYTES:-1048576}\" \\\n\
   --database-name=\"${DATABASE_NAME}\" \\\n\
   --database-username=\"${DATABASE_USERNAME}\" \\\n\
   --database-password=\"${DATABASE_PASSWORD}\" \\\n\
