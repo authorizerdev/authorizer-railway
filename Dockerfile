@@ -42,6 +42,14 @@ CMD ["./authorizer \\\n\
   --enable-graphql-introspection=\"${ENABLE_GRAPHQL_INTROSPECTION:-true}\" \\\n\
   --app-cookie-secure=\"${APP_COOKIE_SECURE:-true}\" \\\n\
   --admin-cookie-secure=\"${ADMIN_COOKIE_SECURE:-true}\" \\\n\
+  --trusted-proxies=\"${TRUSTED_PROXIES}\" \\\n\
+  --refresh-token-expires-in=\"${REFRESH_TOKEN_EXPIRES_IN:-2592000}\" \\\n\
+  --enable-hsts=\"${ENABLE_HSTS:-false}\" \\\n\
+  --disable-csp=\"${DISABLE_CSP:-false}\" \\\n\
+  --graphql-max-complexity=\"${GRAPHQL_MAX_COMPLEXITY:-300}\" \\\n\
+  --graphql-max-depth=\"${GRAPHQL_MAX_DEPTH:-15}\" \\\n\
+  --graphql-max-aliases=\"${GRAPHQL_MAX_ALIASES:-30}\" \\\n\
+  --graphql-max-body-bytes=\"${GRAPHQL_MAX_BODY_BYTES:-1048576}\" \\\n\
   --database-name=\"${DATABASE_NAME}\" \\\n\
   --database-username=\"${DATABASE_USERNAME}\" \\\n\
   --database-password=\"${DATABASE_PASSWORD}\" \\\n\
