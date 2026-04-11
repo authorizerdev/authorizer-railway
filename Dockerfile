@@ -45,6 +45,7 @@ CMD ["exec ./authorizer \\\n\
   --disable-admin-header-auth=\"${DISABLE_ADMIN_HEADER_AUTH:-true}\" \\\n\
   --enable-graphql-introspection=\"${ENABLE_GRAPHQL_INTROSPECTION:-true}\" \\\n\
   --app-cookie-secure=\"${APP_COOKIE_SECURE:-true}\" \\\n\
+  --app-cookie-same-site=\"${APP_COOKIE_SAME_SITE:-none}\" \\\n\
   --admin-cookie-secure=\"${ADMIN_COOKIE_SECURE:-true}\" \\\n\
   --trusted-proxies=\"${TRUSTED_PROXIES}\" \\\n\
   --refresh-token-expires-in=\"${REFRESH_TOKEN_EXPIRES_IN:-2592000}\" \\\n\
