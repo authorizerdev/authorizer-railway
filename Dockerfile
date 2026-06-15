@@ -1,5 +1,5 @@
 # Base runs as USER authorizer (uid 1000). For SQLite, ensure mounted /data is writable by that user.
-FROM quay.io/authorizer/authorizer:2.3.0-rc.4
+FROM quay.io/authorizer/authorizer:2.3.0-rc.5
 # Override so CMD runs in a shell and env vars (e.g. for Railway) are expanded. See base image comment.
 # Use exec-form CMD with a single string so /bin/sh -c gets one argument; shell-form CMD can be split and drop into a shell.
 ENTRYPOINT ["/bin/sh", "-c"]
