@@ -1,13 +1,13 @@
 # Base runs as USER authorizer (uid 1000). For SQLite, ensure mounted /data is writable by that user.
-FROM lakhansamani/authorizer:2.0.0
+FROM quay.io/authorizer/authorizer:2.3.0-rc.5
 # Override so CMD runs in a shell and env vars (e.g. for Railway) are expanded. See base image comment.
 # Use exec-form CMD with a single string so /bin/sh -c gets one argument; shell-form CMD can be split and drop into a shell.
 ENTRYPOINT ["/bin/sh", "-c"]
 # Single CMD string so the whole command is run by sh -c (not just "./authorizer").
 # Backslash-newline inside the string lets sh treat this as one command across lines.
-CMD ["./authorizer \\\n\
+CMD ["exec ./authorizer \\\n\
   --database-type=\"${DATABASE_TYPE:-mysql}\" \\\n\
-  --database-url=\"$MYSQLUSER:$MYSQLPASSWORD@tcp($MYSQLHOST:$MYSQLPORT)/$MYSQLDATABASE\" \\\n\
+  --database-url=\"${DATABASE_URL}\" \\\n\
   --client-id=\"${CLIENT_ID}\" \\\n\
   --client-secret=\"${CLIENT_SECRET}\" \\\n\
   --admin-secret=\"${ADMIN_SECRET}\" \\\n\
@@ -17,6 +17,10 @@ CMD ["./authorizer \\\n\
   --jwt-private-key=\"${JWT_PRIVATE_KEY}\" \\\n\
   --jwt-public-key=\"${JWT_PUBLIC_KEY}\" \\\n\
   --jwt-role-claim=\"${JWT_ROLE_CLAIM}\" \\\n\
+  --jwt-secondary-type=\"${JWT_SECONDARY_TYPE}\" \\\n\
+  --jwt-secondary-secret=\"${JWT_SECONDARY_SECRET}\" \\\n\
+  --jwt-secondary-private-key=\"${JWT_SECONDARY_PRIVATE_KEY}\" \\\n\
+  --jwt-secondary-public-key=\"${JWT_SECONDARY_PUBLIC_KEY}\" \\\n\
   --custom-access-token-script=\"${CUSTOM_ACCESS_TOKEN_SCRIPT}\" \\\n\
   --roles=\"${ROLES}\" \\\n\
   --default-roles=\"${DEFAULT_ROLES}\" \\\n\
@@ -33,15 +37,34 @@ CMD ["./authorizer \\\n\
   --smtp-sender-email=\"${SENDER_EMAIL}\" \\\n\
   --smtp-sender-name=\"${SENDER_NAME}\" \\\n\
   --reset-password-url=\"${RESET_PASSWORD_URL}\" \\\n\
+  --backchannel-logout-uri=\"${BACKCHANNEL_LOGOUT_URI}\" \\\n\
   --env=\"${ENV}\" \\\n\
   --host=\"${HOST:-0.0.0.0}\" \\\n\
   --metrics-port=\"${METRICS_PORT:-8081}\" \\\n\
+  --metrics-host=\"${METRICS_HOST:-127.0.0.1}\" \\\n\
+  --grpc-port=\"${GRPC_PORT:-9091}\" \\\n\
+  --enable-grpc-reflection=\"${ENABLE_GRPC_REFLECTION:-true}\" \\\n\
+  --grpc-insecure=\"${GRPC_INSECURE:-true}\" \\\n\
+  --grpc-tls-cert=\"${GRPC_TLS_CERT}\" \\\n\
+  --grpc-tls-key=\"${GRPC_TLS_KEY}\" \\\n\
+  --rate-limit-rps=\"${RATE_LIMIT_RPS:-30}\" \\\n\
+  --rate-limit-burst=\"${RATE_LIMIT_BURST:-20}\" \\\n\
+  --rate-limit-fail-closed=\"${RATE_LIMIT_FAIL_CLOSED:-false}\" \\\n\
   --enable-login-page=\"${ENABLE_LOGIN_PAGE:-true}\" \\\n\
   --enable-playground=\"${ENABLE_PLAYGROUND:-true}\" \\\n\
   --disable-admin-header-auth=\"${DISABLE_ADMIN_HEADER_AUTH:-true}\" \\\n\
   --enable-graphql-introspection=\"${ENABLE_GRAPHQL_INTROSPECTION:-true}\" \\\n\
   --app-cookie-secure=\"${APP_COOKIE_SECURE:-true}\" \\\n\
+  --app-cookie-same-site=\"${APP_COOKIE_SAME_SITE:-none}\" \\\n\
   --admin-cookie-secure=\"${ADMIN_COOKIE_SECURE:-true}\" \\\n\
+  --trusted-proxies=\"${TRUSTED_PROXIES}\" \\\n\
+  --refresh-token-expires-in=\"${REFRESH_TOKEN_EXPIRES_IN:-2592000}\" \\\n\
+  --enable-hsts=\"${ENABLE_HSTS:-false}\" \\\n\
+  --disable-csp=\"${DISABLE_CSP:-false}\" \\\n\
+  --graphql-max-complexity=\"${GRAPHQL_MAX_COMPLEXITY:-300}\" \\\n\
+  --graphql-max-depth=\"${GRAPHQL_MAX_DEPTH:-15}\" \\\n\
+  --graphql-max-aliases=\"${GRAPHQL_MAX_ALIASES:-30}\" \\\n\
+  --graphql-max-body-bytes=\"${GRAPHQL_MAX_BODY_BYTES:-1048576}\" \\\n\
   --database-name=\"${DATABASE_NAME}\" \\\n\
   --database-username=\"${DATABASE_USERNAME}\" \\\n\
   --database-password=\"${DATABASE_PASSWORD}\" \\\n\
@@ -50,6 +73,8 @@ CMD ["./authorizer \\\n\
   --database-cert=\"${DATABASE_CERT}\" \\\n\
   --database-ca-cert=\"${DATABASE_CA_CERT}\" \\\n\
   --database-cert-key=\"${DATABASE_CERT_KEY}\" \\\n\
+  --fga-store=\"${FGA_STORE}\" \\\n\
+  --fga-store-url=\"${FGA_STORE_URL}\" \\\n\
   --couchbase-bucket=\"${COUCHBASE_BUCKET}\" \\\n\
   --couchbase-scope=\"${COUCHBASE_SCOPE}\" \\\n\
   --couchbase-ram-quota=\"${COUCHBASE_RAM_QUOTA}\" \\\n\
