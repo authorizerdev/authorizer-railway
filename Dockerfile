@@ -1,5 +1,9 @@
 # Base runs as USER authorizer (uid 1000). For SQLite, ensure mounted /data is writable by that user.
-FROM quay.io/authorizer/authorizer:2.3.0
+# Pinned to the 2.4.0 release candidate because it is the first published
+# image with the current CLI flag surface (--url, --oauth2-1-strict,
+# --enable-org-discovery, --disable-totp-login/-webauthn-mfa/-email-otp/
+# -sms-otp/-mfa). Re-pin to the stable 2.4.0 tag once it ships.
+FROM quay.io/authorizer/authorizer:2.4.0-rc.7
 # Override so CMD runs in a shell and env vars (e.g. for Railway) are expanded. See base image comment.
 # Use exec-form CMD with a single string so /bin/sh -c gets one argument; shell-form CMD can be split and drop into a shell.
 ENTRYPOINT ["/bin/sh", "-c"]
@@ -28,6 +32,7 @@ CMD ["exec ./authorizer \\\n\
   --allowed-origins=\"${ALLOWED_ORIGINS}\" \\\n\
   --default-authorize-response-type=\"${DEFAULT_AUTHORIZE_RESPONSE_TYPE}\" \\\n\
   --default-authorize-response-mode=\"${DEFAULT_AUTHORIZE_RESPONSE_MODE}\" \\\n\
+  --oauth2-1-strict=\"${OAUTH2_1_STRICT:-false}\" \\\n\
   --organization-name=\"${ORGANIZATION_NAME}\" \\\n\
   --organization-logo=\"${ORGANIZATION_LOGO}\" \\\n\
   --smtp-host=\"${SMTP_HOST}\" \\\n\
@@ -38,6 +43,7 @@ CMD ["exec ./authorizer \\\n\
   --smtp-sender-name=\"${SENDER_NAME}\" \\\n\
   --reset-password-url=\"${RESET_PASSWORD_URL}\" \\\n\
   --backchannel-logout-uri=\"${BACKCHANNEL_LOGOUT_URI}\" \\\n\
+  --url=\"${AUTHORIZER_URL}\" \\\n\
   --env=\"${ENV}\" \\\n\
   --host=\"${HOST:-0.0.0.0}\" \\\n\
   --metrics-port=\"${METRICS_PORT:-8081}\" \\\n\
@@ -51,6 +57,7 @@ CMD ["exec ./authorizer \\\n\
   --rate-limit-burst=\"${RATE_LIMIT_BURST:-20}\" \\\n\
   --rate-limit-fail-closed=\"${RATE_LIMIT_FAIL_CLOSED:-false}\" \\\n\
   --enable-login-page=\"${ENABLE_LOGIN_PAGE:-true}\" \\\n\
+  --enable-org-discovery=\"${ENABLE_ORG_DISCOVERY:-false}\" \\\n\
   --enable-playground=\"${ENABLE_PLAYGROUND:-true}\" \\\n\
   --disable-admin-header-auth=\"${DISABLE_ADMIN_HEADER_AUTH:-true}\" \\\n\
   --enable-graphql-introspection=\"${ENABLE_GRAPHQL_INTROSPECTION:-true}\" \\\n\
@@ -84,16 +91,17 @@ CMD ["exec ./authorizer \\\n\
   --smtp-local-name=\"${SMTP_LOCAL_NAME}\" \\\n\
   --smtp-skip-tls-verification=\"${SMTP_SKIP_TLS_VERIFICATION:-false}\" \\\n\
   --enable-strong-password=\"${ENABLE_STRONG_PASSWORD:-true}\" \\\n\
-  --enable-totp-login=\"${ENABLE_TOTP_LOGIN:-false}\" \\\n\
   --enable-basic-authentication=\"${ENABLE_BASIC_AUTHENTICATION:-true}\" \\\n\
   --enable-email-verification=\"${ENABLE_EMAIL_VERIFICATION:-false}\" \\\n\
   --enable-mobile-basic-authentication=\"${ENABLE_MOBILE_BASIC_AUTHENTICATION:-true}\" \\\n\
   --enable-phone-verification=\"${ENABLE_PHONE_VERIFICATION:-false}\" \\\n\
   --enable-magic-link-login=\"${ENABLE_MAGIC_LINK_LOGIN:-false}\" \\\n\
   --enforce-mfa=\"${ENFORCE_MFA:-true}\" \\\n\
-  --enable-mfa=\"${ENABLE_MFA:-false}\" \\\n\
-  --enable-email-otp=\"${ENABLE_EMAIL_OTP:-false}\" \\\n\
-  --enable-sms-otp=\"${ENABLE_SMS_OTP:-false}\" \\\n\
+  --disable-totp-login=\"${DISABLE_TOTP_LOGIN:-false}\" \\\n\
+  --disable-webauthn-mfa=\"${DISABLE_WEBAUTHN_MFA:-false}\" \\\n\
+  --disable-email-otp=\"${DISABLE_EMAIL_OTP:-false}\" \\\n\
+  --disable-sms-otp=\"${DISABLE_SMS_OTP:-false}\" \\\n\
+  --disable-mfa=\"${DISABLE_MFA:-false}\" \\\n\
   --enable-signup=\"${ENABLE_SIGNUP:-true}\" \\\n\
   --twilio-account-sid=\"${TWILIO_ACCOUNT_SID}\" \\\n\
   --twilio-api-key=\"${TWILIO_API_KEY}\" \\\n\
