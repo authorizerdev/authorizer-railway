@@ -3,7 +3,7 @@
 # image with the current CLI flag surface (--url, --oauth2-1-strict,
 # --enable-org-discovery, --disable-totp-login/-webauthn-mfa/-email-otp/
 # -sms-otp/-mfa). Re-pin to the stable 2.4.0 tag once it ships.
-FROM quay.io/authorizer/authorizer:2.4.0-rc.7
+FROM quay.io/authorizer/authorizer:2.4.0-rc.15
 # Override so CMD runs in a shell and env vars (e.g. for Railway) are expanded. See base image comment.
 # Use exec-form CMD with a single string so /bin/sh -c gets one argument; shell-form CMD can be split and drop into a shell.
 ENTRYPOINT ["/bin/sh", "-c"]
@@ -18,6 +18,7 @@ CMD ["exec ./authorizer \\\n\
   --redis-url=\"${REDIS_URL}\" \\\n\
   --jwt-type=\"${JWT_TYPE}\" \\\n\
   --jwt-secret=\"${JWT_SECRET}\" \\\n\
+  --encryption-key=\"${ENCRYPTION_KEY}\" \\\n\
   --jwt-private-key=\"${JWT_PRIVATE_KEY}\" \\\n\
   --jwt-public-key=\"${JWT_PUBLIC_KEY}\" \\\n\
   --jwt-role-claim=\"${JWT_ROLE_CLAIM}\" \\\n\
