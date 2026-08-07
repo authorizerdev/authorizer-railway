@@ -83,6 +83,7 @@ CMD ["exec ./authorizer \\\n\
   --database-cert-key=\"${DATABASE_CERT_KEY}\" \\\n\
   --fga-store=\"${FGA_STORE}\" \\\n\
   --fga-store-url=\"${FGA_STORE_URL}\" \\\n\
+  --fga-allow-unconstrained-agents=\"${FGA_ALLOW_UNCONSTRAINED_AGENTS:-false}\" \\\n\
   --couchbase-bucket=\"${COUCHBASE_BUCKET}\" \\\n\
   --couchbase-scope=\"${COUCHBASE_SCOPE}\" \\\n\
   --couchbase-ram-quota=\"${COUCHBASE_RAM_QUOTA}\" \\\n\
@@ -120,7 +121,9 @@ CMD ["exec ./authorizer \\\n\
   --microsoft-client-id=\"${MICROSOFT_CLIENT_ID}\" \\\n\
   --microsoft-client-secret=\"${MICROSOFT_CLIENT_SECRET}\" \\\n\
   --microsoft-tenant-id=\"${MICROSOFT_TENANT_ID}\" \\\n\
+  --microsoft-allowed-tenants=\"${MICROSOFT_ALLOWED_TENANTS}\" \\\n\
   --microsoft-scopes=\"${MICROSOFT_SCOPES}\" \\\n\
+  --oauth-allow-unverified-provider-email=\"${OAUTH_ALLOW_UNVERIFIED_PROVIDER_EMAIL:-false}\" \\\n\
   --apple-client-id=\"${APPLE_CLIENT_ID}\" \\\n\
   --apple-client-secret=\"${APPLE_CLIENT_SECRET}\" \\\n\
   --apple-scopes=\"${APPLE_SCOPES}\" \\\n\

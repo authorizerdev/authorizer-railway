@@ -31,7 +31,33 @@ Authorizer v2 requires the following variables. Configure them in Railway's envi
 | `CLIENT_ID` | Client identifier **(required)** | `123456` |
 | `CLIENT_SECRET` | Client secret **(required)** | `secret` |
 
-These are mapped to CLI flags at startup. Please refer to the [server configuration docs](https://docs.authorizer.dev/core/server-config) for all available flags.
+These are mapped to CLI flags at startup.
+
+### Upgrading to 2.4.0
+
+`ENABLE_EMAIL_VERIFICATION=true` with no SMTP configured is now a **fatal boot
+error**, not a warning. Every account-recovery route ends at the same mailbox,
+so without a mail path a user is created unverified and can never recover. If
+you set it, also set `SMTP_HOST`, `SMTP_PORT` and `SMTP_SENDER_EMAIL` — all
+three — or the container will exit on start.
+
+`APP_COOKIE_SAME_SITE` is now validated at boot too: an unrecognised value
+exits rather than silently falling back to `lax`.
+
+Two optional flags were added for the 2.4.0 security changes, both defaulting
+to the secure behaviour:
+
+- `OAUTH_ALLOW_UNVERIFIED_PROVIDER_EMAIL` — a social login whose provider did
+  not attest the email address no longer reaches an existing account. Set
+  `true` only as a temporary compatibility measure.
+- `FGA_ALLOW_UNCONSTRAINED_AGENTS` — a delegated (agent-acting-for-user) check
+  against an authorization model with no `type agent` now denies. Set `true`
+  only while migrating a model.
+
+`MICROSOFT_ALLOWED_TENANTS` restricts which Entra tenants may sign in when
+`MICROSOFT_TENANT_ID` is a multi-tenant alias (`common`/`organizations`/
+`consumers`).
+ Please refer to the [server configuration docs](https://docs.authorizer.dev/core/server-config) for all available flags.
 
 ## Notes
 
