@@ -1,6 +1,6 @@
 # Base runs as USER authorizer (uid 1000). For SQLite, ensure mounted /data is writable by that user.
 # Pinned to the 2.4.0 release candidate because it is the first published
-# image with the current CLI flag surface (--url, --oauth2-1-strict,
+# image with the current CLI flag surface (--url, --mcp-enabled, --oauth2-1-strict,
 # --enable-org-discovery, --disable-totp-login/-webauthn-mfa/-email-otp/
 # -sms-otp/-mfa). Re-pin to the stable 2.4.0 tag once it ships.
 FROM quay.io/authorizer/authorizer:2.4.0-rc.18
@@ -54,6 +54,7 @@ CMD ["exec ./authorizer \\\n\
   --grpc-insecure=\"${GRPC_INSECURE:-true}\" \\\n\
   --grpc-tls-cert=\"${GRPC_TLS_CERT}\" \\\n\
   --grpc-tls-key=\"${GRPC_TLS_KEY}\" \\\n\
+  --mcp-enabled=\"${MCP_ENABLED:-false}\" \\\n\
   --rate-limit-rps=\"${RATE_LIMIT_RPS:-30}\" \\\n\
   --rate-limit-burst=\"${RATE_LIMIT_BURST:-20}\" \\\n\
   --rate-limit-fail-closed=\"${RATE_LIMIT_FAIL_CLOSED:-false}\" \\\n\
