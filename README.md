@@ -24,6 +24,7 @@ Authorizer v2 requires the following variables. Configure them in Railway's envi
 | -------- | ----------- | ------- |
 | `DATABASE_TYPE` | Database type | `postgres` |
 | `DATABASE_URL` | Database connection string | *(auto-configured by Railway)* |
+| `AUTHORIZER_URL` | This deployment's own public base URL **(required)**. Not the same as allowed origins — this is where Authorizer itself lives. The server exits at boot without it | `https://your-app.up.railway.app` |
 | `JWT_TYPE` | JWT signing algorithm | `HS256` |
 | `JWT_SECRET` | JWT signing secret | `test` |
 | `ENCRYPTION_KEY` | At-rest key for TOTP secrets and OTP digests. Required with `RS*`/`ES*` | *(output of `openssl rand -hex 32`)* |
