@@ -99,7 +99,7 @@ CMD ["exec ./authorizer \\\n\
   --enable-mobile-basic-authentication=\"${ENABLE_MOBILE_BASIC_AUTHENTICATION:-true}\" \\\n\
   --enable-phone-verification=\"${ENABLE_PHONE_VERIFICATION:-false}\" \\\n\
   --enable-magic-link-login=\"${ENABLE_MAGIC_LINK_LOGIN:-false}\" \\\n\
-  --enforce-mfa=\"${ENFORCE_MFA:-true}\" \\\n\
+  --enforce-mfa=\"${ENFORCE_MFA:-false}\" \\\n\
   --disable-totp-login=\"${DISABLE_TOTP_LOGIN:-false}\" \\\n\
   --disable-webauthn-mfa=\"${DISABLE_WEBAUTHN_MFA:-false}\" \\\n\
   --disable-email-otp=\"${DISABLE_EMAIL_OTP:-false}\" \\\n\
