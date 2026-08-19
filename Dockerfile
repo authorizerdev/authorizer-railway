@@ -55,6 +55,9 @@ CMD ["exec ./authorizer \\\n\
   --grpc-tls-cert=\"${GRPC_TLS_CERT}\" \\\n\
   --grpc-tls-key=\"${GRPC_TLS_KEY}\" \\\n\
   ${MCP_ENABLED:+--mcp-enabled=\"$MCP_ENABLED\"} \\\n\
+  --enable-client-id-metadata-document=\"${ENABLE_CLIENT_ID_METADATA_DOCUMENT:-false}\" \\\n\
+  --client-id-metadata-allowed-domains=\"${CLIENT_ID_METADATA_ALLOWED_DOMAINS}\" \\\n\
+  --enable-dynamic-client-registration=\"${ENABLE_DYNAMIC_CLIENT_REGISTRATION:-false}\" \\\n\
   --rate-limit-rps=\"${RATE_LIMIT_RPS:-30}\" \\\n\
   --rate-limit-burst=\"${RATE_LIMIT_BURST:-20}\" \\\n\
   --rate-limit-fail-closed=\"${RATE_LIMIT_FAIL_CLOSED:-false}\" \\\n\
