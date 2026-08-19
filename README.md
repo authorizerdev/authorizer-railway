@@ -45,6 +45,15 @@ three — or the container will exit on start.
 `APP_COOKIE_SAME_SITE` is now validated at boot too: an unrecognised value
 exits rather than silently falling back to `lax`.
 
+`REDIRECT_URIS` is new and **unset by default**, which keeps the old, looser
+behaviour: `redirect_uri` is matched against `ALLOWED_ORIGINS`, and that
+compares *origins*, so any path under an allowed host is accepted. Set it to
+the comma-separated list of exact callbacks your apps use — e.g.
+`https://your-app.up.railway.app/app,https://yoursite.com/callback` — to get the exact matching
+OIDC Core §3.1.2.1 requires. It applies to every flow carrying your
+`CLIENT_ID`, so list them all or those logins start failing with
+`invalid redirect_uri`.
+
 Two optional flags were added for the 2.4.0 security changes, both defaulting
 to the secure behaviour:
 
