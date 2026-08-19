@@ -31,6 +31,7 @@ CMD ["exec ./authorizer \\\n\
   --default-roles=\"${DEFAULT_ROLES}\" \\\n\
   --protected-roles=\"${PROTECTED_ROLES}\" \\\n\
   --allowed-origins=\"${ALLOWED_ORIGINS}\" \\\n\
+  --redirect-uris=\"${REDIRECT_URIS}\" \\\n\
   --default-authorize-response-type=\"${DEFAULT_AUTHORIZE_RESPONSE_TYPE}\" \\\n\
   --default-authorize-response-mode=\"${DEFAULT_AUTHORIZE_RESPONSE_MODE}\" \\\n\
   --oauth2-1-strict=\"${OAUTH2_1_STRICT:-false}\" \\\n\
